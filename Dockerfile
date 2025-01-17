@@ -65,18 +65,18 @@ RUN apt-get update && apt-get install -y \
     uuid-dev \
  && rm -rf /var/lib/apt/lists/*
 
-# Install mamba
+# Install conda
 USER bob
-ADD --chown=bob:bob https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh /home/bob/Mambaforge.sh
-RUN bash /home/bob/Mambaforge.sh -b -p "${HOME}/conda"
+ADD --chown=bob:bob https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh /home/bob/Miniforge3.sh
+RUN bash /home/bob/Miniforge3.sh -b -p "${HOME}/conda"
 #  && ln -s "${HOME}/conda/etc/profile.d/conda.sh" "/etc/profile.d/conda.sh"
 
 
 # Install the Xeus dependencies
 # RUN . "${HOME}/conda/etc/profile.d/conda.sh" \
-#  && mamba install cppzmq xtl nlohmann_json xeus-zmq libuuid -c conda-forge
+#  && conda install cppzmq xtl nlohmann_json xeus-zmq libuuid -c conda-forge
 RUN . "${HOME}/conda/etc/profile.d/conda.sh" \
- && mamba install xtl nlohmann_json -c conda-forge
+ && conda install xtl nlohmann_json -c conda-forge
 
 # Build the libxeus library
 RUN . "${HOME}/conda/etc/profile.d/conda.sh" && conda activate \
@@ -91,7 +91,7 @@ RUN . "${HOME}/conda/etc/profile.d/conda.sh" && conda activate \
 
 # Install our lib's dependencies
 RUN . "${HOME}/conda/etc/profile.d/conda.sh" \
- && mamba install cppzmq xeus-zmq -c conda-forge
+ && conda install cppzmq xeus-zmq -c conda-forge
 
 # Now copy the source
 RUN mkdir -p /home/bob/source/build
@@ -133,15 +133,15 @@ USER brane
 RUN pip3 install --no-cache-dir --user jupyterlab
 USER root
 
-# # Install mamba
-# ADD https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh /Mambaforge.sh
-# RUN chmod +x /Mambaforge.sh \
-#  && bash /Mambaforge.sh -b -p "${HOME}/conda" \
+# # Install conda
+# ADD https://github.com/conda-forge/miniforge/releases/latest/download/condaforge-Linux-x86_64.sh /condaforge.sh
+# RUN chmod +x /condaforge.sh \
+#  && bash /condaforge.sh -b -p "${HOME}/conda" \
 #  && ln -s "${HOME}/conda/etc/profile.d/conda.sh" "/etc/profile.d/conda.sh"
 
 # # Install the Xeus dependencies
 # RUN . "${HOME}/conda/etc/profile.d/conda.sh" \
-#  && mamba install cppzmq xtl nlohmann_json xeus-zmq -c conda-forge
+#  && conda install cppzmq xtl nlohmann_json xeus-zmq -c conda-forge
 
 # Prepare the home folder
 USER brane
@@ -190,15 +190,15 @@ ENTRYPOINT [ "/entrypoint.sh" ]
 #     openssl \
 #  && rm -rf /var/lib/apt/lists/*
 
-# # Install mamba
-# ADD https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh /Mambaforge.sh
-# RUN chmod +x /Mambaforge.sh \
-#  && bash /Mambaforge.sh -b -p "${HOME}/conda" \
+# # Install conda
+# ADD https://github.com/conda-forge/miniforge/releases/latest/download/condaforge-Linux-x86_64.sh /condaforge.sh
+# RUN chmod +x /condaforge.sh \
+#  && bash /condaforge.sh -b -p "${HOME}/conda" \
 #  && ln -s "${HOME}/conda/etc/profile.d/conda.sh" "/etc/profile.d/conda.sh"
 
 # # Install the Xeus dependencies
 # RUN . "${HOME}/conda/etc/profile.d/conda.sh" \
-#  && mamba install cppzmq xtl nlohmann_json xeus-zmq -c conda-forge
+#  && conda install cppzmq xtl nlohmann_json xeus-zmq -c conda-forge
 
 # # Prepare the home folder
 # RUN rmdir "$HOME/work" \

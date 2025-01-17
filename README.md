@@ -17,6 +17,9 @@ You will also have to have access to a Brane instance, and know where to find it
 
 
 ## Running
+
+!!TODO CHANGE Make to correct python3 make(as this was changed)
+
 Once installed, you can then launch the containerized JupyterLab environment:
 ```bash
 make start-ide
