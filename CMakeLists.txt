@@ -55,12 +55,12 @@ find_package(Threads)
 include(CheckCXXCompilerFlag)
 
 if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Intel")
-    CHECK_CXX_COMPILER_FLAG("-std=c++14" HAS_CPP14_FLAG)
+    CHECK_CXX_COMPILER_FLAG("-std=c++17" HAS_CPP17_FLAG)
 
-    if (HAS_CPP14_FLAG)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+    if (HAS_CPP17_FLAG)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
     else()
-        message(FATAL_ERROR "Unsupported compiler -- xeus requires C++14 support!")
+        message(FATAL_ERROR "Unsupported compiler -- xeus requires C++17 support!")
     endif()
 endif()
 
