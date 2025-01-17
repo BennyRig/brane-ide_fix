@@ -16,7 +16,7 @@ FROM ubuntu:22.04 AS build-rust
 # Define the build args
 ARG SETUID=1000
 ARG SETGID=1000
-ARG BRANE_VERSION=develop
+ARG BRANE_VERSION=v4.0.0-test
 
 # Setup a user to run as
 RUN groupadd -g $SETGID bob \
