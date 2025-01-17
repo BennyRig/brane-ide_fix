@@ -14,13 +14,13 @@
 FROM ubuntu:22.04 AS build-rust
 
 # Define the build args
-ARG UID=1000
-ARG GID=1000
+ARG SETUID=1000
+ARG SETGID=1000
 ARG BRANE_VERSION=develop
 
 # Setup a user to run as
-RUN groupadd -g $GID bob \
- && useradd -m -u $UID -g $GID bob
+RUN groupadd -g $SETGID bob \
+ && useradd -m -u $SETUID -g $SETGID bob
 
 # Install additional dependencies
 RUN apt-get update && apt-get install -y \
@@ -37,8 +37,8 @@ RUN git clone https://github.com/epi-project/brane /home/bob/brane \
  && cd /home/bob/brane && git checkout $BRANE_VERSION
 
 # Compile the binary
-RUN --mount=type=cache,uid=$UID,id=cargoidx,target=/home/bob/.cargo/registry \
-    --mount=type=cache,uid=$UID,id=libbraneclicache,target=/home/bob/brane/target \
+RUN --mount=type=cache,uid=$SETUID,id=cargoidx,target=/home/bob/.cargo/registry \
+    --mount=type=cache,uid=$SETUID,id=libbraneclicache,target=/home/bob/brane/target \
     . /home/bob/.cargo/env && cd /home/bob/brane \
  && cargo build --release --package brane-cli-c \
  && mv target/release/libbrane_cli.so /home/bob/libbrane_cli.so
@@ -51,13 +51,13 @@ RUN --mount=type=cache,uid=$UID,id=cargoidx,target=/home/bob/.cargo/registry \
 FROM ubuntu:22.04 AS build-cpp
 
 # Define the build args
-ARG UID=1000
-ARG GID=1000
+ARG SETUID=1000
+ARG SETGID=1000
 ARG XEUS_VERSION=3.2.0
 
 # Now setup a user to run as
-RUN groupadd -g $GID bob \
- && useradd -m -u $UID -g $GID bob
+RUN groupadd -g $SETGID bob \
+ && useradd -m -u $SETUID -g $SETGID bob
 
 # Install the dependencies we need
 RUN apt-get update && apt-get install -y \
@@ -115,12 +115,12 @@ RUN . "${HOME}/conda/etc/profile.d/conda.sh" && conda activate \
 FROM ubuntu:22.04 AS run
 
 # Define the user build args
-ARG UID=1000
-ARG GID=1000
+ARG SETUID=1000
+ARG SETGID=1000
 
 # Create the jupyter user
-RUN groupadd -g $GID brane \
- && useradd -m -u $UID -g $GID brane
+RUN groupadd -g $SETGID brane \
+ && useradd -m -u $SETUID -g $SETGID brane
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
