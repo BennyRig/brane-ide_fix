@@ -23,6 +23,7 @@ set(EXECUTABLE_NAME bscript)
 
 
 
+
 ### CONFIGURATION ###
 include(GNUInstallDirs)
 
@@ -31,6 +32,7 @@ configure_file (
     "${CMAKE_CURRENT_SOURCE_DIR}/share/jupyter/kernels/bscript/kernel.json.in"
     "${CMAKE_CURRENT_SOURCE_DIR}/share/jupyter/kernels/bscript/kernel.json"
 )
+
 
 # Set some Xeus dependencies stuff
 option(XEUS_STATIC_DEPENDENCIES "link statically with xeus dependencies" ON)
@@ -45,9 +47,10 @@ endif ()
 ### DEPENDENCIES ###
 # Be sure to use recent versions
 set(xeus-zmq_REQUIRED_VERSION 1.0.2)
-
+find_package(cppzmq REQUIRED)
 find_package(xeus-zmq ${xeus-zmq_REQUIRED_VERSION} REQUIRED)
 find_package(Threads)
+
 
 
 
@@ -74,9 +77,11 @@ set(MY_KERNEL_SRC
     src/custom_interpreter.hpp
 )
 
+
+
 # My kernel executable
 add_executable(${EXECUTABLE_NAME} src/main.cpp ${MY_KERNEL_SRC} )
-target_link_libraries(${EXECUTABLE_NAME} PRIVATE ${xeus-zmq_target} Threads::Threads)
+target_link_libraries(${EXECUTABLE_NAME} PRIVATE ${xeus-zmq_target} cppzmq Threads::Threads)
 
 set_target_properties(${EXECUTABLE_NAME} PROPERTIES
     INSTALL_RPATH_USE_LINK_PATH TRUE

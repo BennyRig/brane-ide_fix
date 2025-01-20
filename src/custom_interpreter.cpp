@@ -259,12 +259,17 @@ void custom_interpreter::shutdown_request_impl() {
 
 
 
-nl::json custom_interpreter::execute_request_impl(int execution_counter, const std::string& code, bool silent, bool store_history, nl::json user_expressions, bool allow_stdin) {
+ void custom_interpreter::execute_request_impl(
+                                  send_reply_callback cb,
+                                  int execution_counter,
+                                  const std::string& code,
+                                  xeus::execute_request_config config,
+                                  nl::json user_expressions){
     LOG_INFO("Handling execute request " << execution_counter);
 
     // Quit if errored
     if (session == nullptr) {
-        return xeus::create_error_reply("init_failure", "Failed to initialize kernel; check the log");
+        //return xeus::create_error_reply("init_failure", "Failed to initialize kernel; check the log");
     }
 
     // Attempt to compile the input
@@ -289,7 +294,7 @@ nl::json custom_interpreter::execute_request_impl(int execution_counter, const s
 
         // Done, cleanup
         delete[] message;
-        return xeus::create_error_reply();
+        //return xeus::create_error_reply();
     }
     if (brane_cli->serror_has_serrs(serr)) {
         // Get the errors as a string
@@ -302,7 +307,7 @@ nl::json custom_interpreter::execute_request_impl(int execution_counter, const s
 
         // Done, cleanup
         free(buffer);
-        return xeus::create_error_reply();
+        //return xeus::create_error_reply();
     }
     brane_cli->serror_free(serr);
 
@@ -330,7 +335,7 @@ nl::json custom_interpreter::execute_request_impl(int execution_counter, const s
 
         // Done, cleanup
         delete[] message;
-        return xeus::create_error_reply();
+        //return xeus::create_error_reply();
     }
     cout << disas << endl;
     free(disas);
@@ -353,7 +358,7 @@ nl::json custom_interpreter::execute_request_impl(int execution_counter, const s
 
         // Done, cleanup
         free(buffer);
-        return xeus::create_error_reply();
+        //return xeus::create_error_reply();
     }
 
     // Publish any prints as intermediary results
@@ -389,7 +394,7 @@ nl::json custom_interpreter::execute_request_impl(int execution_counter, const s
 
             // Done, cleanup
             delete[] message;
-            return xeus::create_error_reply();
+            //return xeus::create_error_reply();
         }
     }
 
@@ -407,7 +412,7 @@ nl::json custom_interpreter::execute_request_impl(int execution_counter, const s
     free(buffer);
     brane_cli->fvalue_free(result);
     brane_cli->workflow_free(workflow);
-    return xeus::create_successful_reply();
+    //return xeus::create_successful_reply();
 }
 
 nl::json custom_interpreter::complete_request_impl(const std::string& code, int cursor_pos) {

@@ -21,19 +21,19 @@ using namespace std;
 
 /***** ENTRYPOINT *****/
 int main() {
-    // Run the execute request with fake data
-    bscript::custom_interpreter interpreter;
+    // // Run the execute request with fake data
+    // bscript::custom_interpreter interpreter;
 
-    // Start it
-    interpreter.configure_impl();
+    // // Start it
+    // interpreter.configure_impl();
 
-    // Run a fake snippet
-    nl::json res = interpreter.execute_request_impl(0, "test", false, true, {}, false);
-    cout << res << endl;
+    // // Run a fake snippet
+    // nl::json res = interpreter.execute_request_impl(0, "test", false, true, {}, false);
+    // cout << res << endl;
 
-    // Done
-    interpreter.shutdown_request_impl();
+    // // Done
+    // interpreter.shutdown_request_impl();
 
-    // Jepjepjep
-    return 0;
+    // // Jepjepjep
+    // return 0;
 }

@@ -53,7 +53,7 @@ FROM ubuntu:22.04 AS build-cpp
 # Define the build args
 ARG SETUID=1000
 ARG SETGID=1000
-ARG XEUS_VERSION=3.2.0
+ARG XEUS_VERSION=5.1.1
 
 # Now setup a user to run as
 RUN groupadd -g $SETGID bob \
@@ -79,7 +79,7 @@ RUN . "${HOME}/conda/etc/profile.d/conda.sh" \
  && conda install xtl nlohmann_json -c conda-forge
 
 # Build the libxeus library
-RUN . "${HOME}/conda/etc/profile.d/conda.sh" && conda activate \
+RUN . "${HOME}/conda/etc/profile.d/conda.sh" &&conda activate \
  && git clone https://github.com/jupyter-xeus/xeus /home/bob/xeus \
  && cd /home/bob/xeus && git checkout $XEUS_VERSION \
  && mkdir build && cd build \
@@ -91,7 +91,7 @@ RUN . "${HOME}/conda/etc/profile.d/conda.sh" && conda activate \
 
 # Install our lib's dependencies
 RUN . "${HOME}/conda/etc/profile.d/conda.sh" \
- && conda install cppzmq xeus-zmq -c conda-forge
+ && conda install cppzmq xeus-zmq  -c conda-forge
 
 # Now copy the source
 RUN mkdir -p /home/bob/source/build
