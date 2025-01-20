@@ -3,7 +3,9 @@
         {
             "name": "brane-ide-dev",
             "includePath": [
-                "/root/conda/include",
+                "/home/benny/miniforge3/include",
+                "/home/benny/miniforge3/pkgs/xeus-5.1.1-h4795217_0/include",
+                "/home/benny/miniforge3/pkgs/xeus-zmq-3.1.0-h0da9c92_0/include",
                 "${default}"
             ],
             "intelliSenseMode": "linux-gcc-x64",
