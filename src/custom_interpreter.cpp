@@ -269,7 +269,8 @@ void custom_interpreter::shutdown_request_impl() {
 
     // Quit if errored
     if (session == nullptr) {
-        //return xeus::create_error_reply("init_failure", "Failed to initialize kernel; check the log");
+        cb(xeus::create_error_reply("init_failure", "Failed to initialize kernel; check the log"));
+        return;
     }
 
     // Attempt to compile the input
@@ -294,7 +295,8 @@ void custom_interpreter::shutdown_request_impl() {
 
         // Done, cleanup
         delete[] message;
-        //return xeus::create_error_reply();
+        cb(xeus::create_error_reply());
+        return;
     }
     if (brane_cli->serror_has_serrs(serr)) {
         // Get the errors as a string
@@ -307,7 +309,8 @@ void custom_interpreter::shutdown_request_impl() {
 
         // Done, cleanup
         free(buffer);
-        //return xeus::create_error_reply();
+        cb(xeus::create_error_reply());
+        return;
     }
     brane_cli->serror_free(serr);
 
@@ -335,7 +338,8 @@ void custom_interpreter::shutdown_request_impl() {
 
         // Done, cleanup
         delete[] message;
-        //return xeus::create_error_reply();
+        cb(xeus::create_error_reply());
+        return;
     }
     cout << disas << endl;
     free(disas);
@@ -358,7 +362,8 @@ void custom_interpreter::shutdown_request_impl() {
 
         // Done, cleanup
         free(buffer);
-        //return xeus::create_error_reply();
+        cb(xeus::create_error_reply());
+        return;
     }
 
     // Publish any prints as intermediary results
@@ -394,7 +399,8 @@ void custom_interpreter::shutdown_request_impl() {
 
             // Done, cleanup
             delete[] message;
-            //return xeus::create_error_reply();
+            cb(xeus::create_error_reply());
+            return;
         }
     }
 
@@ -412,7 +418,7 @@ void custom_interpreter::shutdown_request_impl() {
     free(buffer);
     brane_cli->fvalue_free(result);
     brane_cli->workflow_free(workflow);
-    //return xeus::create_successful_reply();
+    cb(xeus::create_successful_reply());
 }
 
 nl::json custom_interpreter::complete_request_impl(const std::string& code, int cursor_pos) {
