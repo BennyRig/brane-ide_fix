@@ -5,8 +5,11 @@ This repository contains the extensions and kernels necessary to connect to a Br
 
 > Unfortunately, the Bakery kernel is unsupported at the moment. The remainder of this README (and the rest of the repository) focusses on the BraneScript kernel only.
 
+> Note: In the current state only linux has been tested, Future work is needed to ensure that other platforms are suported
+
 
 ## Installation
+
 To install the BraneScript and Bakery kernels for the Brane framework, you first have to install Docker in which the JupyterLab server will run.
 
 To do so, you can follow any of the tutorials for [Ubuntu](https://docs.docker.com/engine/install/ubuntu/), [Debian](https://docs.docker.com/engine/install/debian/), [Arch Linux](https://wiki.archlinux.org/title/docker) or [macOS](https://docs.docker.com/desktop/mac/install/).
@@ -16,20 +19,22 @@ Then, install the Docker [buildx](https://docs.docker.com/buildx/working-with-bu
 You will also have to have access to a Brane instance, and know where to find it (i.e., its IP-address). If you're testing with a local instance, make sure that you have deployed it (check [the documentation](https://wiki.enablingpersonalizedinterventions.nl/)).
 
 
+
 ## Running
 
-!!TODO CHANGE Make to correct python3 make(as this was changed)
 
 Once installed, you can then launch the containerized JupyterLab environment:
 ```bash
-make start-ide
+python3 make.py start-ide
 ```
 This will launch a new JupyterLab instance that will connect to a Brane instance that is running locally. Additionally, it will mount the `notebook` directory under `./notebook` (**important**, read below why this folder exists).
+
+
 
 If your instance is _not_ a local Docker deployment, you should change the endpoints where the notebook connects two using the following two options:
 - `BRANE_DRV=<address>`: Changes the endpoint of the `brane-drv` service that will be used to execute workflows. It's similar to that used in `brane repl --remote` commands, except that this address should _not_ contain `http://`. For example, to connect to the standard `brane-drv` port at the host `http://remote-host.com`:
   ```bash
-  make start-ide BRANE_DRV="remote-host.com:50053"
+  python3 make.py start-ide BRANE_DRV="remote-host.com:50053"
   ```
 
 Usually, you'll need to supply both these options with the same address (but different prefix and port).
@@ -38,7 +43,7 @@ Aside from that, you can also change some other options using the CLI:
 - `BRANE_NOTEBOOK_DIR=<dir>`: The persistent directory for notebook or other project files storage. You can think of this as 'changing the project directory'. Any data that you _don't_ write to this folder is **removed when the container is removed as well.**. Thus, to keep your notebooks around after you stopped the IDE, write them to the `notebooks` directory.
   For example, to mount a folder `awesome-brane-project`:
   ```bash
-  make start-ide BRANE_NOTEBOOK_DIR="/home/user/awesome-brane-project"
+  python3 make.py  start-ide BRANE_NOTEBOOK_DIR="/home/user/awesome-brane-project"
   ```
 
 Once launched, you may connect to the JupyterLab server by copying the address provided in the output of the command to your browser.
@@ -47,7 +52,7 @@ Then, you should select a 'BraneScript' kernel from the lab menu and use that to
 
 To stop the server, run:
 ```bash
-make stop-ide
+python3 make.py stop-ide
 ```
 
 
@@ -62,6 +67,9 @@ If you moved files to/from the persistent folder from your OS, remember to hit t
 
 
 ### Showing images
+
+>  Note: This has not been tested in a while 
+
 To help with showing visual results of data pipelines, the JupyterLab kernel can show files that are 'printed' by BraneScript.
 
 To show a file, run the following `print()`-command:
@@ -80,6 +88,7 @@ Any other types are simple copied as raw text.
 
 ### Debugging
 Currently, receiving debug messages from the Brane instance is not supported from within the JupyterLab environment. Instead, use the `brane` command-line tool to see debug messages instead.
+
 
 
 ## Contributing
