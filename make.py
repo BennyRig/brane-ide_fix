@@ -112,7 +112,9 @@ def get_active_instance() -> typing.Optional[str]:
     elif Os.default() == Os.darwin():
         config = f"{home}/Library/Preferences"
     elif Os.default() == Os.linux():
-        config = f"{home}/.config"
+       # config = f"{home}/.config"
+       config_s = f"~/.config"
+       config = os.path.expanduser(config_s)
     else:
         raise ValueError(f"Unknown OS default '{Os.default()}'")
     brane = f"{config}/brane"
@@ -120,7 +122,8 @@ def get_active_instance() -> typing.Optional[str]:
     # Check if it exists
     if not os.path.exists(brane):
         # Return the local directory instead
-        pdebug(f"Brane configuration directory '{brane}' not found; assuming `brane` executable not used")
+        pdebug(f"Brane configuration directory '{brane}' not found; assuming `brane` executable not used '{config}'")
+
         return None
 
     # Attempt to find the active instance

@@ -29,8 +29,8 @@ python3 make.py start-ide
 ```
 This will launch a new JupyterLab instance that will connect to a Brane instance that is running locally. Additionally, it will mount the `notebook` directory under `./notebook` (**important**, read below why this folder exists).
 
-
-
+<!-- Commented out since not correct anymore, needs update -->
+<!-- 
 If your instance is _not_ a local Docker deployment, you should change the endpoints where the notebook connects two using the following two options:
 - `BRANE_DRV=<address>`: Changes the endpoint of the `brane-drv` service that will be used to execute workflows. It's similar to that used in `brane repl --remote` commands, except that this address should _not_ contain `http://`. For example, to connect to the standard `brane-drv` port at the host `http://remote-host.com`:
   ```bash
@@ -44,7 +44,7 @@ Aside from that, you can also change some other options using the CLI:
   For example, to mount a folder `awesome-brane-project`:
   ```bash
   python3 make.py  start-ide BRANE_NOTEBOOK_DIR="/home/user/awesome-brane-project"
-  ```
+  ``` -->
 
 Once launched, you may connect to the JupyterLab server by copying the address provided in the output of the command to your browser.
 

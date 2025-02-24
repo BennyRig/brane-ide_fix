@@ -33,7 +33,7 @@ ADD --chown=bob:bob https://sh.rustup.rs /home/bob/rustup.sh
 RUN sh /home/bob/rustup.sh -y --profile minimal
 
 # Download Rust
-RUN git clone https://github.com/epi-project/brane /home/bob/brane \
+RUN git clone https://github.com/BraneFramework/brane.git /home/bob/brane \
  && cd /home/bob/brane && git checkout $BRANE_VERSION
 
 # Compile the binary
